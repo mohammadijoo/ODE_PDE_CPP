@@ -689,16 +689,16 @@ This provides baseline CI coverage and ensures the core build stays healthy on L
 
 2) Install vcpkg and SFML:
 <pre><code># PowerShell (example path)
-git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
-cd C:\vcpkg
+git clone https://github.com/microsoft/vcpkg.git C:\dev\vcpkg
+cd C:\dev\vcpkg
 .\bootstrap-vcpkg.bat
 
 # Install SFML (choose triplet as needed)
 .\vcpkg.exe install sfml</code></pre>
 
 3) Configure and build with the vcpkg toolchain:
-<pre><code>cmake -S . -B build -DCMAKE_BUILD_TYPE=Release ^
-  -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake
+<pre><code>cmake -S . -B build -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_TOOLCHAIN_FILE="C:/dev/vcpkg/scripts/buildsystems/vcpkg.cmake"
 cmake --build build --config Release</code></pre>
 
 4) Run:
