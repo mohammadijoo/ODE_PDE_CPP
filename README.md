@@ -349,27 +349,16 @@ The actual plant dynamics are nonlinear and do not provide a simple closed-form 
 The code therefore uses a pragmatic engineering approach:
 
 1. Define the desired sliding surface derivative:  
-   $$
-   \dot{s}_{des} = -k\,\mathrm{sat}\left(\frac{s}{\phi}\right).
-   $$
+   $\dot{s}_{des} = -k\,\mathrm{sat}\left(\frac{s}{\phi}\right).$
 2. Approximate $\dot{s}(u)$ locally as an affine function:
-   $$
-   \dot{s}(u) \approx a\,u + b.
-   $$
+   $\dot{s}(u) \approx a\,u + b.$
 3. Estimate $a$ and $b$ numerically using two evaluations of the nominal dynamics (disturbance ignored in the control law):
-   $$
-   a \approx \dot{s}(1) - \dot{s}(0), \quad b \approx \dot{s}(0).
-   $$
+   $a \approx \dot{s}(1) - \dot{s}(0), \quad b \approx \dot{s}(0).$
 4. Solve for the control:
-   $$
-   u_{smc} = \frac{\dot{s}_{des} - b}{a}.
-   $$
+   $u_{smc} = \frac{\dot{s}_{des} - b}{a}.$
 5. Saturate the actuator:
-   $$
-   u = \mathrm{clamp}(u_{smc} + u_{hold}, -u_{max}, u_{max}).
-   $$
+   $u = \mathrm{clamp}(u_{smc} + u_{hold}, -u_{max}, u_{max}).$
 
-<pre><code>Define the desired sliding surface derivative: $$ \dot{s}_{des} = -k\,\mathrm{sat}\left(\frac{s}{\phi}\right). $$ Approximate \dot{s}(u) locally as an affine function: $$ \dot{s}(u) \approx a\,u + b. $$ Estimate a and b numerically: $$ a \approx \dot{s}(1) - \dot{s}(0), \quad b \approx \dot{s}(0). $$ Solve for the control: $$ u_{smc} = \frac{\dot{s}_{des} - b}{a}. $$ Saturate the actuator: $$ u = \mathrm{clamp}(u_{smc} + u_{hold}, -u_{max}, u_{max}). $$</code></pre>
 
 ### 5) Cart-centering term with gating
 
