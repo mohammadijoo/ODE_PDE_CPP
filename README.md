@@ -369,6 +369,8 @@ The code therefore uses a pragmatic engineering approach:
    u = \mathrm{clamp}(u_{smc} + u_{hold}, -u_{max}, u_{max}).
    $$
 
+<pre><code>Define the desired sliding surface derivative: $$ \dot{s}_{des} = -k\,\mathrm{sat}\left(\frac{s}{\phi}\right). $$ Approximate \dot{s}(u) locally as an affine function: $$ \dot{s}(u) \approx a\,u + b. $$ Estimate a and b numerically: $$ a \approx \dot{s}(1) - \dot{s}(0), \quad b \approx \dot{s}(0). $$ Solve for the control: $$ u_{smc} = \frac{\dot{s}_{des} - b}{a}. $$ Saturate the actuator: $$ u = \mathrm{clamp}(u_{smc} + u_{hold}, -u_{max}, u_{max}). $$</code></pre>
+
 ### 5) Cart-centering term with gating
 
 A practical issue in inverted pendulum stabilization is the cart drifting away from the origin. If we always apply a centering controller, it can interfere with the fast “catching” action needed during large angle errors.
