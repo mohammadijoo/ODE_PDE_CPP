@@ -52,7 +52,7 @@
 
 ---
 
-<section id="about-this-repository">
+<a id="about-this-repository"></a>
 
 ## About this repository
 
@@ -76,11 +76,10 @@ The goal is not just “making it work,” but also illustrating common engineer
 - <code>heat2d</code> → solves the 2D heat equation and writes results into <code>output/heat2d/</code>
 - <code>pendulum_sliding_mode</code> → simulates a cart–pole and writes results into <code>output/pendulum_sliding_mode/</code>
 
-</section>
 
 ---
 
-<section id="what-are-odes-and-pdes">
+<a id="what-are-odes-and-pdes"></a>
 
 ## What are ODEs and PDEs?
 
@@ -89,14 +88,14 @@ The goal is not just “making it work,” but also illustrating common engineer
 An ODE describes the evolution of one or more state variables with respect to a single independent variable (usually time):
 
 $$
-\\dot{\\mathbf{x}}(t) = \\mathbf{f}(\\mathbf{x}(t), \\mathbf{u}(t), t),
+\dot{\mathbf{x}}(t) = \mathbf{f}(\mathbf{x}(t), \mathbf{u}(t), t),
 $$
 
 where:
 
-- $\\mathbf{x}(t)$ is the state (e.g., cart position, pole angle),
-- $\\mathbf{u}(t)$ is an input (e.g., a control force),
-- $\\mathbf{f}(\\cdot)$ describes the system dynamics.
+- $\mathbf{x}(t)$ is the state (e.g., cart position, pole angle),
+- $\mathbf{u}(t)$ is an input (e.g., a control force),
+- $\mathbf{f}(\cdot)$ describes the system dynamics.
 
 In this repository, the inverted pendulum example is a nonlinear ODE system integrated in time using an RK4 scheme.
 
@@ -106,23 +105,22 @@ A PDE involves partial derivatives with respect to two or more independent varia
 heat equation (diffusion equation):
 
 $$
-\\frac{\\partial T}{\\partial t} = \\alpha \\left( \\frac{\\partial^2 T}{\\partial x^2} + \\frac{\\partial^2 T}{\\partial y^2} \\right),
+\frac{\partial T}{\partial t} = \alpha \left( \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} \right),
 $$
 
 where:
 
 - $T(x,y,t)$ is temperature,
-- $\\alpha$ is thermal diffusivity,
+- $\alpha$ is thermal diffusivity,
 - $(x,y)$ are spatial coordinates,
 - $t$ is time.
 
 In this repository, the heat equation is discretized in space using finite differences and integrated forward in time using an explicit FTCS method.
 
-</section>
 
 ---
 
-<section id="example-1-pde-2d-heat-equation">
+<a id="example-1-pde-2d-heat-equation"></a>
 
 ## Example 1 (PDE): 2D Heat Equation
 
@@ -131,14 +129,14 @@ In this repository, the heat equation is discretized in space using finite diffe
 The PDE solved in <code>src/heat2d/main.cpp</code> is:
 
 $$
-\\frac{\\partial T}{\\partial t} = \\alpha \\left( \\frac{\\partial^2 T}{\\partial x^2} + \\frac{\\partial^2 T}{\\partial y^2} \\right).
+\frac{\partial T}{\partial t} = \alpha \left( \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} \right).
 $$
 
 Interpretation:
 
 - conduction in a 2D plate,
 - no internal heat sources,
-- constant isotropic diffusivity $\\alpha$,
+- constant isotropic diffusivity $\alpha$,
 - fixed temperature boundaries (Dirichlet BCs).
 
 The implemented boundary conditions are:
@@ -153,25 +151,25 @@ which produces a diffusion front moving from the left edge into the interior.
 The solver uses:
 
 - uniform grid in $x$ and $y$,
-- second-order central differences for $\\partial^2 T / \\partial x^2$ and $\\partial^2 T / \\partial y^2$,
+- second-order central differences for $\partial^2 T / \partial x^2$ and $\partial^2 T / \partial y^2$,
 - explicit time stepping (Forward Euler in time).
 
 At interior grid nodes $(i,j)$:
 
 $$
-T^{n+1}_{i,j} = T^{n}_{i,j} + \\alpha\\,\\Delta t\\left(
-\\frac{T^n_{i+1,j}-2T^n_{i,j}+T^n_{i-1,j}}{\\Delta x^2}
+T^{n+1}_{i,j} = T^{n}_{i,j} + \alpha\,\Delta t\left(
+\frac{T^n_{i+1,j}-2T^n_{i,j}+T^n_{i-1,j}}{\Delta x^2}
 +
-\\frac{T^n_{i,j+1}-2T^n_{i,j}+T^n_{i,j-1}}{\\Delta y^2}
-\\right).
+\frac{T^n_{i,j+1}-2T^n_{i,j}+T^n_{i,j-1}}{\Delta y^2}
+\right).
 $$
 
 ### Stability constraint (explicit diffusion)
 
-The explicit 2D diffusion scheme requires a stability constraint on $\\Delta t$. A commonly used sufficient condition is:
+The explicit 2D diffusion scheme requires a stability constraint on $\Delta t$. A commonly used sufficient condition is:
 
 $$
-\\Delta t \\le \\frac{1}{2\\alpha \\left(\\frac{1}{\\Delta x^2} + \\frac{1}{\\Delta y^2}\\right)}.
+\Delta t \le \frac{1}{2\alpha \left(\frac{1}{\Delta x^2} + \frac{1}{\Delta y^2}\right)}.
 $$
 
 The code computes this value (as <code>dt_stable</code>) and uses a conservative factor (<code>0.80</code>) to avoid running near the limit.
@@ -191,11 +189,10 @@ This combination is typical for PDE workflows:
 - plots for engineering interpretation,
 - CSV for reproducibility and post-processing in Python/Matlab/Excel.
 
-</section>
 
 ---
 
-<section id="example-2-ode-inverted-pendulum-with-smc">
+<a id="example-2-ode-inverted-pendulum-with-smc"></a>
 
 ## Example 2 (ODE): Inverted Pendulum with Sliding Mode Control
 
@@ -206,44 +203,44 @@ The second example (<code>src/pendulum_sliding_mode/main.cpp</code>) simulates a
 The code uses the following state definition:
 
 $$
-\\mathbf{x} = \\begin{bmatrix} x & \\dot{x} & \\theta & \\dot{\\theta} \\end{bmatrix}^T
+\mathbf{x} = \begin{bmatrix} x & \dot{x} & \theta & \dot{\theta} \end{bmatrix}^T
 $$
 
 - $x$ is the cart position (meters),
-- $\\theta$ is the pole angle (radians) with $\\theta=0$ being upright,
-- sign convention is chosen such that $\\theta &gt; 0$ visually leans the pole to the right.
+- $\theta$ is the pole angle (radians) with $\theta=0$ being upright,
+- sign convention is chosen such that $\theta &gt; 0$ visually leans the pole to the right.
 
 Two practical helper operations are used:
 
-- angle wrapping into $[-\\pi,\\pi]$ to avoid numeric drift,
+- angle wrapping into $[-\pi,\pi]$ to avoid numeric drift,
 - clamping/saturation for control and gating logic.
 
 ### Disturbances (exactly two)
 
 The example injects two disturbance pulses (implemented as an external torque about the pole pivot):
 
-- pulse 1: starts at $t=0.5\\,s$, positive torque (“push right”)
-- pulse 2: starts at $t=5.0\\,s$, negative torque (“push left”)
+- pulse 1: starts at $t=0.5\,s$, positive torque (“push right”)
+- pulse 2: starts at $t=5.0\,s$, negative torque (“push left”)
 
 Each pulse uses a smooth half-sine profile over a 0.5 second duration, and the disturbance arrow is shown for 0.5 seconds only.
 
 Disturbance torque model:
 
 $$
-\\tau_{ext}(t) =
-\\begin{cases}
-+\\tau_{amp}\\sin\\left(\\pi\\frac{t-t_1}{d}\\right) &amp; t\\in[t_1,t_1+d] \\\\
--\\tau_{amp}\\sin\\left(\\pi\\frac{t-t_2}{d}\\right) &amp; t\\in[t_2,t_2+d] \\\\
-0 &amp; \\text{otherwise}
-\\end{cases}
+\tau_{ext}(t) =
+\begin{cases}
++\tau_{amp}\sin\left(\pi\frac{t-t_1}{d}\right) &amp; t\in[t_1,t_1+d] \\
+-\tau_{amp}\sin\left(\pi\frac{t-t_2}{d}\right) &amp; t\in[t_2,t_2+d] \\
+0 &amp; \text{otherwise}
+\end{cases}
 $$
 
-where $d=0.5\\,s$ is the pulse duration.
+where $d=0.5\,s$ is the pulse duration.
 
 For visualization and logging, the code also reports an “equivalent bob force”:
 
 $$
-F_{eq}(t) = \\frac{\\tau_{ext}(t)}{L}.
+F_{eq}(t) = \frac{\tau_{ext}(t)}{L}.
 $$
 
 ### Simulation and rendering pipeline
@@ -270,11 +267,10 @@ Outputs include:
   <li>and (optionally) rename the MP4 output filename accordingly.</li>
 </ul>
 
-</section>
 
 ---
 
-<section id="sliding-mode-control-theory">
+<a id="sliding-mode-control-theory"></a>
 
 ## Sliding Mode Control (SMC) theory
 
@@ -285,37 +281,37 @@ Sliding Mode Control is a robust nonlinear control method designed to enforce a 
 For a general second-order system, a common sliding surface is:
 
 $$
-s = \\dot{e} + \\lambda e,
+s = \dot{e} + \lambda e,
 $$
 
-where $e$ is the tracking error. Enforcing $s \\to 0$ typically yields stable error dynamics.
+where $e$ is the tracking error. Enforcing $s \to 0$ typically yields stable error dynamics.
 
-In this repository, the “error” is the inverted pendulum’s deviation from upright ($\\theta$) plus a cart stabilizing term. The implemented sliding surface is:
+In this repository, the “error” is the inverted pendulum’s deviation from upright ($\theta$) plus a cart stabilizing term. The implemented sliding surface is:
 
 $$
-s(\\mathbf{x}) = \\dot{\\theta} + \\lambda_{\\theta}\\,\\theta + \\alpha\\left(\\dot{x} + \\lambda_x\\,x\\right).
+s(\mathbf{x}) = \dot{\theta} + \lambda_{\theta}\,\theta + \alpha\left(\dot{x} + \lambda_x\,x\right).
 $$
 
 Interpretation:
 
-- $\\lambda_{\\theta}$ defines how strongly the controller penalizes angle error,
-- $\\alpha$ couples cart motion to the sliding surface (cart movement is necessary to catch the pendulum),
-- $\\lambda_x$ adds a “soft” cart-centering effect as part of the surface.
+- $\lambda_{\theta}$ defines how strongly the controller penalizes angle error,
+- $\alpha$ couples cart motion to the sliding surface (cart movement is necessary to catch the pendulum),
+- $\lambda_x$ adds a “soft” cart-centering effect as part of the surface.
 
 ### 2) Reaching condition and stability intuition
 
 A classical sufficient condition for reaching and maintaining the sliding manifold is the Lyapunov inequality:
 
 $$
-\\frac{d}{dt}\\left(\\frac{1}{2}s^2\\right) = s\\dot{s} \\le -\\eta |s|,
+\frac{d}{dt}\left(\frac{1}{2}s^2\right) = s\dot{s} \le -\eta |s|,
 $$
 
-with $\\eta &gt; 0$. This implies $s$ decreases in magnitude and reaches zero in finite time.
+with $\eta &gt; 0$. This implies $s$ decreases in magnitude and reaches zero in finite time.
 
 A typical control law to satisfy this is:
 
 $$
-\\dot{s} = -k\\,\\mathrm{sign}(s),
+\dot{s} = -k\,\mathrm{sign}(s),
 $$
 
 where $k &gt; 0$ is a gain. This creates a discontinuous control action that strongly rejects matched disturbances (disturbances entering through the same channel as the control).
@@ -325,21 +321,21 @@ where $k &gt; 0$ is a gain. This creates a discontinuous control action that str
 The ideal sign function can cause chattering (high-frequency switching) in practice. A common mitigation is to replace sign$(s)$ with a continuous saturation function:
 
 $$
-\\mathrm{sat}(z) =
-\\begin{cases}
--1 &amp; z &lt; -1 \\\\
-z  &amp; |z| \\le 1 \\\\
+\mathrm{sat}(z) =
+\begin{cases}
+-1 &amp; z &lt; -1 \\
+z  &amp; |z| \le 1 \\
 +1 &amp; z &gt; 1
-\\end{cases}
+\end{cases}
 $$
 
 and use:
 
 $$
-\\dot{s} = -k\\,\\mathrm{sat}\\left(\\frac{s}{\\phi}\\right),
+\dot{s} = -k\,\mathrm{sat}\left(\frac{s}{\phi}\right),
 $$
 
-where $\\phi &gt; 0$ defines a boundary layer thickness around $s=0$.
+where $\phi &gt; 0$ defines a boundary layer thickness around $s=0$.
 
 This repository implements exactly this idea, with parameters:
 
@@ -348,29 +344,29 @@ This repository implements exactly this idea, with parameters:
 
 ### 4) How the code computes the control input
 
-The actual plant dynamics are nonlinear and do not provide a simple closed-form affine relationship between the cart force $u$ and the sliding surface derivative $\\dot{s}$.
+The actual plant dynamics are nonlinear and do not provide a simple closed-form affine relationship between the cart force $u$ and the sliding surface derivative $\dot{s}$.
 
 The code therefore uses a pragmatic engineering approach:
 
 1. Define the desired sliding surface derivative:  
    $$
-   \\dot{s}_{des} = -k\\,\\mathrm{sat}\\left(\\frac{s}{\\phi}\\right).
+   \dot{s}_{des} = -k\,\mathrm{sat}\left(\frac{s}{\phi}\right).
    $$
-2. Approximate $\\dot{s}(u)$ locally as an affine function:
+2. Approximate $\dot{s}(u)$ locally as an affine function:
    $$
-   \\dot{s}(u) \\approx a\\,u + b.
+   \dot{s}(u) \approx a\,u + b.
    $$
 3. Estimate $a$ and $b$ numerically using two evaluations of the nominal dynamics (disturbance ignored in the control law):
    $$
-   a \\approx \\dot{s}(1) - \\dot{s}(0), \\quad b \\approx \\dot{s}(0).
+   a \approx \dot{s}(1) - \dot{s}(0), \quad b \approx \dot{s}(0).
    $$
 4. Solve for the control:
    $$
-   u_{smc} = \\frac{\\dot{s}_{des} - b}{a}.
+   u_{smc} = \frac{\dot{s}_{des} - b}{a}.
    $$
 5. Saturate the actuator:
    $$
-   u = \\mathrm{clamp}(u_{smc} + u_{hold}, -u_{max}, u_{max}).
+   u = \mathrm{clamp}(u_{smc} + u_{hold}, -u_{max}, u_{max}).
    $$
 
 ### 5) Cart-centering term with gating
@@ -380,28 +376,27 @@ A practical issue in inverted pendulum stabilization is the cart drifting away f
 This repository uses a gated cart-centering term:
 
 $$
-u_{hold} = g(\\theta)\\left(-k_p x - k_d \\dot{x}\\right),
+u_{hold} = g(\theta)\left(-k_p x - k_d \dot{x}\right),
 $$
 
 where:
 
-- $g(\\theta) \\in [0,1]$,
-- $g(\\theta) \\approx 1$ when $|\\theta|$ is small (near upright),
-- $g(\\theta) \\approx 0$ when $|\\theta|$ is large (prioritize stabilization/catch maneuver).
+- $g(\theta) \in [0,1]$,
+- $g(\theta) \approx 1$ when $|\theta|$ is small (near upright),
+- $g(\theta) \approx 0$ when $|\theta|$ is large (prioritize stabilization/catch maneuver).
 
 This is implemented by:
 
 $$
-g(\\theta) = \\mathrm{clamp}\\left(1 - \\frac{|\\theta|}{\\theta_{gate}}, 0, 1\\right).
+g(\theta) = \mathrm{clamp}\left(1 - \frac{|\theta|}{\theta_{gate}}, 0, 1\right).
 $$
 
 Result: the controller focuses on balancing first, then recenters the cart when it is safe.
 
-</section>
 
 ---
 
-<section id="numerical-methods-used-in-this-repo">
+<a id="numerical-methods-used-in-this-repo"></a>
 
 ## Numerical methods used in this repo
 
@@ -420,7 +415,7 @@ Strengths:
 
 Limitations:
 
-- stability constraint can force small $\\Delta t$ for fine grids,
+- stability constraint can force small $\Delta t$ for fine grids,
 - accuracy is limited by explicit time stepping for stiff diffusion regimes.
 
 A natural extension (not yet implemented here) is an implicit method (e.g., Crank–Nicolson or ADI) to remove/relax stability constraints.
@@ -429,8 +424,8 @@ A natural extension (not yet implemented here) is an implicit method (e.g., Cran
 
 The cart–pole uses classical Runge–Kutta 4th order (RK4). The simulation renders frames at high FPS, so the code uses <em>substeps per frame</em>:
 
-- choose a frame time-step $\\Delta t_{frame}$ based on desired animation duration and frame count,
-- integrate dynamics with smaller steps $\\Delta t_{physics} = \\Delta t_{frame}/N_{substeps}$.
+- choose a frame time-step $\Delta t_{frame}$ based on desired animation duration and frame count,
+- integrate dynamics with smaller steps $\Delta t_{physics} = \Delta t_{frame}/N_{substeps}$.
 
 This is a common workflow for physically plausible animations:
 
@@ -438,11 +433,10 @@ This is a common workflow for physically plausible animations:
 - deterministic frame output,
 - tight coupling between simulation and visualization.
 
-</section>
 
 ---
 
-<section id="plots-and-animations-matplot-sfml-ffmpeg">
+<a id="plots-and-animations-matplot-sfml-ffmpeg"></a>
 
 ## Plots and animations (Matplot++, SFML, FFmpeg)
 
@@ -473,11 +467,10 @@ If FFmpeg is installed and available in <code>PATH</code>, the pendulum program 
 
 If FFmpeg is not available, the program still generates PNG frames, and you can encode the video manually (see OS-specific sections).
 
-</section>
 
 ---
 
-<section id="dependencies-and-installation">
+<a id="dependencies-and-installation"></a>
 
 ## Dependencies and installation
 
@@ -500,11 +493,10 @@ If FFmpeg is not available, the program still generates PNG frames, and you can 
   - on Windows, the most reliable approach is vcpkg
   - on macOS, Homebrew is convenient
 
-</section>
 
 ---
 
-<section id="building-the-project">
+<a id="building-the-project"></a>
 
 ## Building the project
 
@@ -515,11 +507,10 @@ cmake --build build -j</code></pre>
 
 Executable outputs are placed under <code>build/bin/</code> (depending on generator/configuration).
 
-</section>
 
 ---
 
-<section id="running-the-executables-and-generating-results">
+<a id="running-the-executables-and-generating-results"></a>
 
 ## Running the executables and generating results
 
@@ -554,11 +545,10 @@ Results appear in:
 - <code>output/pendulum_sliding_mode/</code>
 - frames in <code>output/pendulum_sliding_mode/frames/</code>
 
-</section>
 
 ---
 
-<section id="repository-file-guide">
+<a id="repository-file-guide"></a>
 
 ## Repository file guide (full explanation)
 
@@ -689,11 +679,10 @@ GitHub Actions workflow that builds the project on Ubuntu:
 
 This provides baseline CI coverage and ensures the core build stays healthy on Linux.
 
-</section>
 
 ---
 
-<section id="operating-system-guides-windows-macos-linux">
+<a id="operating-system-guides-windows-macos-linux"></a>
 
 ## Operating system guides (Windows / macOS / Linux)
 
@@ -766,11 +755,10 @@ cmake --build build -j</code></pre>
 <pre><code>ffmpeg -y -framerate 180 -i output/pendulum_sliding_mode/frames/frame_%06d.png \
   -c:v libx264 -pix_fmt yuv420p output/pendulum_sliding_mode/pendulum.mp4</code></pre>
 
-</section>
 
 ---
 
-<section id="troubleshooting">
+<a id="troubleshooting"></a>
 
 ## Troubleshooting
 
@@ -796,11 +784,10 @@ cmake --build build -j</code></pre>
 - Reduce <code>total_frames</code> (or increase) depending on your desired quality vs time.
 - Consider using a faster SSD and running in Release mode.
 
-</section>
 
 ---
 
-<section id="implementation-tutorial-video">
+<a id="implementation-tutorial-video"></a>
 
 ## Implementation tutorial video
 
@@ -815,4 +802,4 @@ At the end of the workflow, you can watch the full implementation and walkthroug
   />
 </a>
 
-</section>
+
