@@ -699,11 +699,11 @@ cd C:\vcpkg
 3) Configure and build with the vcpkg toolchain:
 <pre><code>cmake -S . -B build -DCMAKE_BUILD_TYPE=Release ^
   -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake
-cmake --build build -j</code></pre>
+cmake --build build --config Release</code></pre>
 
 4) Run:
-<pre><code>.\build\bin\heat2d.exe
-.\build\bin\pendulum_sliding_mode.exe</code></pre>
+<pre><code>.\build\bin\Release\heat2d.exe
+.\build\bin\Release\pendulum_sliding_mode.exe</code></pre>
 
 5) Install Gnuplot and FFmpeg:
 <ul>
