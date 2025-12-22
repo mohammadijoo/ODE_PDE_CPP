@@ -785,9 +785,9 @@ cmake --build build -j</code></pre>
 At the end of the workflow, you can watch the full implementation and walkthrough on YouTube.
 
 <!-- Replace YOUR_VIDEO_ID and YOUR_VIDEO_URL with your real link. -->
-<a href="YOUR_VIDEO_URL" target="_blank">
+<a href="https://www.youtube.com/watch?v=K-gh_15FszQ" target="_blank">
   <img
-    src="https://i.ytimg.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg"
+    src="https://i.ytimg.com/vi/K-gh_15FszQ/maxresdefault.jpg"
     alt="ODE/PDE in C++ - Implementation Tutorial"
     style="max-width: 100%; border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.18); margin-top: 0.5rem;"
   />
